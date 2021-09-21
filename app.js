@@ -98,13 +98,23 @@ imageRef.forEach(elem => {
   const dataSources = [];
   dataSources.push(elem.dataset.source);
 
-  elem.addEventListener('click', modalOpen);
+  gallery.addEventListener('click', modalOpen);
 
   function modalOpen(event) {
+    event.preventDefault();
+    addImageModal(event);
+
     window.addEventListener('keydown', onEscKeyPress);
     modal.classList.add('is-open');
-    image.src = elem.src;
-    image.alt = elem.alt;
+    // image.src = elem.src;
+    // image.alt = elem.alt;
+  }
+
+  function addImageModal(event) {
+    const bigImgRef = event.target.getAttribute('data-source');
+    const alt = event.target.getAttribute('alt');
+    image.setAttribute('src', bigImgRef);
+    image.setAttribute('alt', alt);
   }
 
   close.addEventListener('click', modalClose);
