@@ -106,6 +106,7 @@ imageRef.forEach(elem => {
 
     window.addEventListener('keydown', onEscKeyPress);
     modal.classList.add('is-open');
+
     // image.src = elem.src;
     // image.alt = elem.alt;
   }
