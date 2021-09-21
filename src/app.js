@@ -70,6 +70,8 @@ const gallery = document.querySelector('.js-gallery');
 
 const close = document.querySelector('.lightbox__button');
 
+const overlay = document.querySelector('.lightbox__overlay');
+
 galleryItems.forEach(element => {
   const li = document.createElement('li');
   li.classList.add('gallery__item');
@@ -89,22 +91,70 @@ galleryItems.forEach(element => {
 });
 
 const imageRef = document.querySelectorAll('img');
-console.log(imageRef);
 
 imageRef.forEach(elem => {
   const image = document.querySelector('.lightbox__image');
 
+  const dataSources = [];
+  dataSources.push(elem.dataset.source);
+
   elem.addEventListener('click', modalOpen);
-  function modalOpen() {
+
+  function modalOpen(event) {
+    window.addEventListener('keydown', onEscKeyPress);
     modal.classList.add('is-open');
     image.src = elem.src;
     image.alt = elem.alt;
   }
 
   close.addEventListener('click', modalClose);
+
   function modalClose() {
+    window.removeEventListener('keydown', onEscKeyPress);
     modal.classList.remove('is-open');
     image.src = '';
     image.alt = '';
+  }
+
+  function onEscKeyPress(event) {
+    const ESC_KEY_CODE = 'Escape';
+    const isEscKey = event.code === ESC_KEY_CODE;
+
+    if (isEscKey) {
+      modalClose();
+    }
+  }
+
+  overlay.addEventListener('click', clickOverlay);
+
+  function clickOverlay(event) {
+    if (event.currentTarget === event.target) {
+      modalClose();
+    }
+  }
+
+  document.addEventListener('keydown', e => {
+    const currentIndex = dataSources.indexOf(image.src);
+    if (e.key === 'ArrowLeft') {
+      leftClick(currentIndex);
+    } else if (e.key === 'ArrowRight') {
+      rightClick(currentIndex);
+    }
+  });
+
+  function leftClick(currentIndex) {
+    let nextIndex = currentIndex - 1;
+    if (nextIndex === -1) {
+      nextIndex = dataSources.length - 1;
+    }
+    image.src = dataSources[nextIndex];
+  }
+
+  function rightClick(currentIndex) {
+    let nextIndex = currentIndex + 1;
+    if (nextIndex === dataSources.length) {
+      nextIndex = 0;
+    }
+    image.src = dataSources[nextIndex];
   }
 });
