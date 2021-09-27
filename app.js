@@ -157,14 +157,14 @@ document.addEventListener('keydown', e => {
 function leftClick(currentIndex) {
   let nextIndex = currentIndex - 1;
   if (nextIndex === -1) {
-    nextIndex = dataSources.length - 1;
+    nextIndex = galleryItems.length - 1;
   }
   image.src = dataSources[nextIndex];
 }
 
 function rightClick(currentIndex) {
   let nextIndex = currentIndex + 1;
-  if (nextIndex === dataSources.length) {
+  if (nextIndex === galleryItems.length) {
     nextIndex = 0;
   }
   image.src = dataSources[nextIndex];
